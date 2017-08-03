@@ -64,16 +64,17 @@ public class reconocedor  {
 				try {
 					String path =fileEntry.getAbsolutePath();
 					if (path.contains(".mp3")) {
-						final int numberOfSeconds =  10;
-						String wav_path = path.substring(0, path.length()-4)+"Large.wav";
-						String wav_path_short = path.substring(0, path.length()-4)+".wav";
-						AudioFileProcessor.mp3towav(path, wav_path);
-						double seconds = AudioFileProcessor.secondsOf(wav_path);
-						int startSecond = ThreadLocalRandom.current().nextInt(0, (int)(seconds) - numberOfSeconds);
-						AudioFileProcessor.copyAudio(wav_path, wav_path_short, startSecond, numberOfSeconds);
-						
-						ri.add(new RecordingInfo(wav_path_short));
-						System.out.println(wav_path);
+						for(int i=0;i<3;i++) {
+							final int numberOfSeconds =  10;
+							String wav_path = path.substring(0, path.length()-4)+"Large.wav";
+							String wav_path_short = path.substring(0, path.length()-4)+i+".wav";
+							AudioFileProcessor.mp3towav(path, wav_path);
+							double seconds = AudioFileProcessor.secondsOf(wav_path);
+							int startSecond = ThreadLocalRandom.current().nextInt(0, (int)(seconds) - numberOfSeconds);
+							AudioFileProcessor.copyAudio(wav_path, wav_path_short, startSecond, numberOfSeconds);
+							
+							ri.add(new RecordingInfo(wav_path_short));
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
