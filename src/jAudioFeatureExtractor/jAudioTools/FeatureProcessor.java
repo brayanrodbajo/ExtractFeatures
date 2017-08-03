@@ -895,14 +895,6 @@ public class FeatureProcessor {
 				}
 			}
 			//added by Brayan
-			/*for(int i=0; i < metadata.length; i++){
-				values_writer.writeBytes("@ATTRIBUTE \"" + metadata[i] 
-						+ "\" STRING" + sep);
-			}
-			values_writer.writeBytes(sep);
-			values_writer.writeBytes("@DATA" + sep);
-			*/
-			//added by Brayan
 			BufferedReader br = null;
 	        String line = "";
 	        String cvsSplitBy = ",";
@@ -1048,7 +1040,7 @@ public class FeatureProcessor {
             while ((line = br.readLine()) != null) {
             	String [] tags = line.split(cvsSplitBy);
             	if (tags[0]!=null) {
-	            	if (tags[0].substring(0,tags[0].length()-4).equals(filename.substring(0,filename.length()-4))) { //regardingless the extension file
+	            	if (tags[0].substring(0,tags[0].length()-4).equals(filename.substring(0,filename.length()-5))) { //regardingless the extension file
 	            		for(int i=1; i<titles.length;i++) {
 	            			values_writer.writeBytes(",");
 	            			if (tags[i]!=null) {
