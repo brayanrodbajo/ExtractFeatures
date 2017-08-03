@@ -7,22 +7,22 @@ import jAudioFeatureExtractor.ModelListener;
 
 import jAudioFeatureExtractor.jAudioTools.AudioMethods;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Vector;
+import java.util.concurrent.ThreadLocalRandom;
+import java.lang.Runtime;
 
 import org.omg.CORBA.portable.OutputStream;
 
 import processing.core.PApplet;
-
-import javazoom.jl.converter.Converter;
-import javazoom.jl.decoder.JavaLayerException;
 
 @SuppressWarnings("serial")
 public class reconocedor  {
@@ -42,7 +42,7 @@ public class reconocedor  {
 
 	public void setup(String path) {
 		csv_path = "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/Listado de Musica.csv"; //path of features
-		dm = new DataModel ("features.xml", null, "estimulo_c_fk_muestra.arff", "estimulo_c_fv_pruebas_muestra.arff");
+		dm = new DataModel ("features.xml", null, "10sec_estimulo_c_fk_muestra.arff", "10sec_estimulo_c_fv_pruebas_muestra.arff");
 		metaFinal = "";
 		
 		final File folder = new File(path);
@@ -55,20 +55,8 @@ public class reconocedor  {
 			e.printStackTrace();
 		}
 	}
-	public void mp3towav(String sourceFile, String destinationFile) {
-
-		Converter myConverter = new Converter();
-        try {
-			myConverter.convert(sourceFile, destinationFile);
-		} catch (JavaLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-	}
-
 	@SuppressWarnings("static-access")
 	public void listFilesForFolder(final File folder) throws Exception {
-		int i=0;
 		for (final File fileEntry : folder.listFiles()) {
 			if (fileEntry.isDirectory()) {
 				listFilesForFolder(fileEntry);
@@ -76,17 +64,20 @@ public class reconocedor  {
 				try {
 					String path =fileEntry.getAbsolutePath();
 					if (path.contains(".mp3")) {
-						//metodos.getAudioFileFormatData(fileEntry);
-						String wav_path = path.substring(0,path.length()-4)+".wav";
-						mp3towav(path, wav_path);
+						final int numberOfSeconds =  10;
+						String wav_path = path.substring(0, path.length()-4)+"Large.wav";
+						String wav_path_short = path.substring(0, path.length()-4)+".wav";
+						AudioFileProcessor.mp3towav(path, wav_path);
+						double seconds = AudioFileProcessor.secondsOf(wav_path);
+						int startSecond = ThreadLocalRandom.current().nextInt(0, (int)(seconds) - numberOfSeconds);
+						AudioFileProcessor.copyAudio(wav_path, wav_path_short, startSecond, numberOfSeconds);
 						
-						ri.add(new RecordingInfo(wav_path));
+						ri.add(new RecordingInfo(wav_path_short));
 						System.out.println(wav_path);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				i++;
 			}
 		}
 		

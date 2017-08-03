@@ -1047,14 +1047,11 @@ public class FeatureProcessor {
             String[] titles = line.split(cvsSplitBy);
             while ((line = br.readLine()) != null) {
             	String [] tags = line.split(cvsSplitBy);
-				System.out.println(filename);
-				System.out.println(tags[0]);
             	if (tags[0]!=null) {
 	            	if (tags[0].substring(0,tags[0].length()-4).equals(filename.substring(0,filename.length()-4))) { //regardingless the extension file
 	            		for(int i=1; i<titles.length;i++) {
 	            			values_writer.writeBytes(",");
 	            			if (tags[i]!=null) {
-	            				System.out.println(tags[i]);
 	            				values_writer.writeBytes(tags[i]);
 	            			}
 	            	        else values_writer.writeBytes("?");
