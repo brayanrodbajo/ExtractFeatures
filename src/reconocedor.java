@@ -42,7 +42,7 @@ public class reconocedor  {
 
 	public void setup(String path) {
 		csv_path = "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/Listado de Musica.csv"; //path of features
-		dm = new DataModel ("features.xml", null, "10sec_estimulo_c_fk_muestra.arff", "10sec_estimulo_c_fv_pruebas_muestra.arff");
+		dm = new DataModel ("features.xml", null, "10sec_estimulo_a_fk_muestra.arff", "10sec_estimulo_a_fv_pruebas_muestra.arff");
 		metaFinal = "";
 		
 		final File folder = new File(path);
@@ -90,7 +90,7 @@ public class reconocedor  {
 	}
 	
 	public static void main(String args[]){
-		String path= "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/ANALISIS MUSICA ICESI/BALADAS INSTRUMENTALES AC MODERNO - ESTIMULO C - ROMANTICO - AMOROSO - NOSTALGICO/";
+		String path= "/home/uv/Dropbox/Programming/ComputerMusic/Musicar/ICESI/Estimulo D Moderno/";
 	
 		System.out.println("Ejecucion Iniciadaaaaaa");
 		reconocedor recon = new reconocedor();
